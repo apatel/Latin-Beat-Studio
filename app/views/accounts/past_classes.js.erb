@@ -1,0 +1,24 @@
+// confirm file called
+console.log("past_classes.js.erb file");
+
+$(".account-info").html("");
+
+var str = ""
+
+str = str + "<h3>Past Registered Classes</h3>"
+str = str + "<p><%= escape_javascript link_to('Register for a Class', fullcalendar_path, class: 'btn btn-primary btn-lg') %> &nbsp;&nbsp;&nbsp; <%= escape_javascript link_to('View Upcoming Classes', classes_accounts_path, remote: true, class: 'btn btn-outline-primary btn-md') %></p>"
+str = str + "<table class='table table-sm'><thead><tr><th>Date - Time</th><th>Class</th><th>Instructor</th><th></th></tr></thead><tbody>"
+    <% @class_registrations.each do |r| %>
+      str = str + "<tr><td><%= r.get_class_date_time %></td><td><%= r.get_class_type %></td><td><%= r.get_instructor %></td><td>"
+        <% if r.attended? %>
+          str = str + "Attended"
+        <% elsif r.no_show? %>
+          str = str + "No Show"
+        <% else %>
+          str = str + "Attendance not Marked"  
+        <% end %>
+        str = str + "</td></tr>"
+    <% end %>
+  str = str + "</tbody></table>"
+
+$(".account-info").html(str);

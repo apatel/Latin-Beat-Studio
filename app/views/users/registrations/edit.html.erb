@@ -1,0 +1,92 @@
+<% if !params[:waiver].blank? && params[:waiver] == "false" %>
+  <%= content_tag :div, class: "alert alert-danger" do %>
+    <center>It has been over a year since you have agreed to the Studio Liability Release. You must read and agree to it again before you can register for classes.</center>
+  <% end %>
+<% end %>
+
+<div class="container">
+  <div class="page-header">
+    <h1>Edit <%= resource_name.to_s.humanize %></h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+  <%= semantic_form_for(resource, as: resource_name, url: registration_path(resource_name), html: {method: :put}) do |f| %>
+    <%= devise_error_messages! %>
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.input :username, input_html: {autofocus: true} %>
+        <%= f.input :email %>
+        <%= f.input :birthday, :as => :date_picker, :input_html => { :max => "2016-12-31", :min => "1920-01-01" } %>
+      </div>
+
+      <div class="col-md-6">
+        <%= f.input :first_name %>
+        <%= f.input :last_name %>
+        <%= f.input :phone, label: "Mobile Phone" %>
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.input :address1 %>
+        <%= f.input :address2 %>
+      </div>
+      <div class="col-md-6">
+        <%= f.input :city %>
+        <%= f.input :state %>
+        <%= f.input :zip %>
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-6">
+        <%= f.input :password, input_html: {autocomplete: "off"}, hint: "(leave blank if you don't want to change it)" %>
+        <% if @minimum_password_length %>
+          <br />
+          <em></em>
+        <% end %>
+        <%= f.input :password_confirmation, hint: "#{@minimum_password_length} characters minimum" %>
+      </div>
+      <div class="col-md-6">
+        <%= f.input :emergency_contact_name %>
+        <%= f.input :emergency_contact_phone %>
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Studio Liability Release</h4>
+        <p>
+          Because physical exercise can be strenuous and subject to risk of serious injury, Latin Beat Fitness Studio urges you to obtain a physical examination from a doctor before using any exercise equipment or participating in any exercise activity. You agree that if you engage in any physical exercise or activity, or use any Studio amenity on the premises, you do so entirely at your own risk. You agree that you are voluntarily participating in these activities and use of these facilities and premises and assume all risks of injury, illness, damage or even death, or loss of by theft of any personal property. You expressly agree to release and discharge Latin Beat Fitness Studio, and all affiliates, employees, agents, representatives, successors, or assigns, from any and all claims or causes of action. This waiver and release of liability includes, without limitation, all injuries to you which may occur, regardless of negligence, as a result of (a) your use of any exercise equipment, products and Studio amenities, (b) the sudden and unforeseen malfunctioning of any equipment, (c) our instruction or supervision, and (d) your slipping and/or falling while in the Studio, or on the Studio premises, including adjacent sidewalks and parking areas.
+          <br /><br />
+          You acknowledge that you have carefully read this waiver and fully understand that it is a release of liability. You agree to voluntarily give up any right that you may otherwise have to bring a legal action against the Studio for negligence, or any other personal injury or property damage or loss action.
+        </p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+        <br />
+        <% if !params[:waiver].blank? && params[:waiver] == "false" %>
+          <% resource.waiver = false %>
+          <h5><%= f.input :waiver, :as => :boolean, label: " Agree", :input_html => {} %></h5>
+          <%= f.input :waiver_date, :as => :hidden, :input_html => { :value => Date.today } %>
+        <% else %>
+          <h5><%= f.input :waiver, :as => :boolean, label: " Agree" %></h5>
+        <% end %>
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-6">
+        <strong><%= f.input :current_password, required: true, hint: "(we need your current password to confirm your changes)" %></strong>
+      </div>
+      <div class="col-md-6">
+        <%= f.actions do %>
+          <%= f.action :submit, :as => :button, label: "Update Profile", button_html: {class: "btn btn-primary btn-wide", style: "padding: 15px 60px;"} %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

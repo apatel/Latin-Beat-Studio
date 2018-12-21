@@ -1,0 +1,18 @@
+// confirm file called
+console.log("member.js.erb file");
+
+$(".choose-member").html("");
+
+var str = ""
+str = str + "<h2><%=@message%></h2>"
+
+<% if session[:member_selected] %>
+  str = str + "<p><%= escape_javascript link_to 'Go to Account', accounts_path %></p><br />"
+<% else %>
+  <% @results.each do |r| %>
+    str = str + "<%= escape_javascript link_to r.autocomplete_name, member_accounts_path(query_id: r.id, query: r.autocomplete_name), remote: true %><br />"
+  <% end %>
+  str = str + "<br />"
+<% end %>
+
+$(".choose-member").html(str);

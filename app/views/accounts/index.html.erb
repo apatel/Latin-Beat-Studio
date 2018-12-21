@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="page-header">
+    <% if !@message.blank? %>
+      <h1><%= @message %></h1>
+    <% elsif !@user.fullname.blank? %>
+      <h1><%= @user.fullname %>'s Account</h1>
+    <% else %>
+      <h1><%= @user.username.capitalize %>'s Account</h1>
+    <% end %>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container account">
+  <% if @message.blank? %>
+    <% if user_signed_in? %>
+      <div class="account-links">
+        <%= link_to('Profile', profile_accounts_path(), remote: true, class: "btn btn-outline-primary btn-lg") %>
+        <%= link_to('QR Code', qr_code_accounts_path(), remote: true, class: "btn btn-outline-primary btn-lg") %>
+        <%= link_to('Classes', classes_accounts_path(), remote: true, class: "btn btn-outline-primary btn-lg") %>
+        <%= link_to('Packages', packages_accounts_path(), remote: true, class: "btn btn-outline-primary btn-lg") %>
+      </div>
+      <div class="account-info">
+        <h3>QR Code</h3>
+        <div class='row'>
+          <div class='qr'>
+            <p>To save QR code, right click (or tap and hold on iPhone) and save image.</p>
+            <%= image_tag(@png) %>
+          </div>
+        </div>
+    <% else %>
+      anonymous
+    <% end %>
+  <% else %>
+    <div class="account-links">
+      <%= link_to('Back to Manage Members', admin_accounts_path, class: "btn btn-primary btn-lg") %>
+    </div>
+  <% end %>
+</div>

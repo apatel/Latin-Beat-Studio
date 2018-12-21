@@ -1,0 +1,44 @@
+<% content_for :stylesheet_includes do %>
+  <%= stylesheet_link_tag(events_path(@index, format: :css)) %>
+<% end %>
+
+<div class="container">
+  <div class="page-header">
+    <h1>Class Registration</h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+  <% if user_signed_in? && current_user.admin%>
+    <p>
+      <%= link_to 'Create Event', 'javascript:void()', id: 'new_event' %>
+    </p>
+  <% end %>
+  <div>
+    <div class='calendar'></div>
+  </div>
+  <% if user_signed_in? %>
+    <% if current_user.admin && session[:member_selected].blank? %>
+      <div id="event_desc_dialog" class="dialog" style="display:none;"></div>
+      <div id="create_event_dialog" class="dialog" style ="display:none;">
+        <%= render 'form' %>
+      </div>
+    <% else %>
+      <div id="user_event_desc_dialog" class="dialog" style="display:none;"></div>
+    <% end %>
+  <% else %>
+    <div id="anon_event_desc_dialog" class="dialog" style="display:none;"></div>
+  <% end %>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $('.calendar').fullCalendar(full_calendar_options);
+    // page is now ready, initialize the calendar...
+    $('#new_event').click(function(event) {
+      FullcalendarEngine.Form.display()
+      event.preventDefault();
+    });
+  });
+</script>

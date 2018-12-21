@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="page-header">
+    <h1>The Instructors</h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+  <div class="row">
+    <% @instructors.each do |i| %>
+      <div class="col-md-4 inst-image">
+        <% if i.instructor_image.file? %>
+          <%= link_to(image_tag(i.instructor_image.url(:medium), class: "image"), instructor_path(i)) %>
+        <% else %>
+          <%= link_to(image_tag("coming-soon.png", class: "image", size: "350x350", alt: "Coming Soon"), instructor_path(i)) %>
+        <% end %>
+        <div class="middle">
+          <div class="text"><%= link_to(i.name, instructor_path(i)) %></div>
+          <% if user_signed_in? %>
+            <% if current_user.instructors.include?(i) || current_user.admin? %>
+              <div class="text-edit"><%= link_to('Edit', edit_instructor_path(i)) %></div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

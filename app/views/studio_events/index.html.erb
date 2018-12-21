@@ -1,0 +1,39 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Upcoming Events</h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+  <div class="row classes">
+    <% @events.each do |e| %>
+      <div class="col-md-offset-6 class-type">
+        <div class="card" style="width: 20rem;">
+          <% if e.event_image.file? %>
+            <img class="card-img-top" src="<%= e.event_image.url(:medium) %>" alt="Event image">
+          <% else %>
+            <%= image_tag("coming-soon.png", class: "card-img-top", size: "300x300", alt: "Coming Soon") %>
+          <% end %>
+          <div class="card-block">
+            <h4 class="card-title"><%= e.name %></h4>
+            <p class="card-text">
+              <h5><%= e.start_date.strftime("%A, %B %-d, %Y") %></h5>
+              <%= e.start_date.strftime("%l:%M %P") %> - <%= e.end_date.strftime("%l:%M %P") %><br />
+              <% unless e.price.blank? %>
+                <%= number_to_currency(e.price) %>
+              <% end %>
+              <br /><br />
+              <%= e.description %>
+              <% unless e.url.blank? %>
+                <%= link_to(e.button_text || 'Buy Tickets Today', e.url, class: "btn btn-primary btn-md") %>
+              <% else %>
+                <%= link_to(e.button_text || 'Register Today', fullcalendar_path, class: "btn btn-primary btn-md") %>
+              <% end %>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

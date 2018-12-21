@@ -1,0 +1,48 @@
+// confirm file called
+console.log("packages.js.erb file");
+
+$(".account-info").html("");
+
+var str = ""
+
+str = str + "<h3>Current Packages</h3>"
+str = str + "<p><%= escape_javascript link_to('Purchase Packages', passes_path(u: @user.id), class: 'btn btn-primary btn-lg') %> &nbsp;&nbsp;&nbsp; <%= escape_javascript link_to('View Past Packages', past_packages_accounts_path, remote: true, class: 'btn btn-outline-primary btn-md') %></p>"
+str = str + "<table class='table table-sm'><thead><tr><th>Purchase Date</th><th>Package</th><th>Classes Remaining</th><th>Expire Date</th><th>Paid?</th><th>Suspend</th><th></th></tr></thead><tbody>"
+<% @purchases.each do |o| %>
+  str = str + "<tr><td><%= o.get_purchase_date %></td><td><%= o.pass.name %></td><td><%= o.quantity_available %></td>"
+  <% if o.get_expire_date.blank? %>
+    str = str + "<td>Not Set</td>"
+  <% else %>
+    str = str + "<td><%= o.get_expire_date %></td>"
+  <% end %>
+
+  <% if current_user.admin && !session[:member_selected].blank? %>
+    <% if o.paid %>
+      str = str + "<td><%= escape_javascript link_to 'Yes', packages_accounts_path(purchase: o), remote: true, class: 'btn btn-sm btn-success' %></td>"
+    <% else %>
+      str = str + "<td><%= escape_javascript link_to 'No', packages_accounts_path(purchase: o), remote: true, class: 'btn btn-sm btn-danger' %></td>"
+    <% end %>
+  <% else %>
+    <% if o.paid %>
+      str = str + "<td>Yes</td>"
+    <% else %>
+      str = str + "<td>No</td>"
+    <% end %>
+  <% end %>
+
+  <% if o.suspend? && !o.suspend_start.blank? %>
+    str = str + "<td><%= escape_javascript link_to 'Turn Off', packages_accounts_path(pkg: o, suspend: false), remote: true, class: 'btn btn-sm btn-danger', :data => {:confirm => 'Your package has been unsuspended. Please remember: You will need to re-register for any classes you previously had scheduled. Please hit CANCEL if you want to keep your package suspended.'} %></td>"
+  <% elsif !o.expire.blank? && o.suspend_start.blank? %>
+    str = str + "<td><%= escape_javascript link_to 'Turn On', packages_accounts_path(pkg: o, suspend: true), remote: true, class: 'btn btn-sm btn-success', :data => {:confirm => 'You are suspending this package from use. Please note: Any classes registered for from today into the future will be removed. You will need to re-register for classes after you unsuspend your package. Please hit CANCEL if you do NOT want to proceed.'} %></td>"
+  <% else %>
+    str = str + "<td>N/A</td>"
+  <% end %>
+
+  <% if o.can_remove? %>
+    str = str + "<td><%= escape_javascript link_to('Remove This Package', remove_passes_path(p: o.id, a: true), class: 'btn btn-danger btn-sm') %></td>"
+  <% end %>
+  str = str + "</tr>"
+<% end %>
+str = str + "</tbody></table>"
+
+$(".account-info").html(str);

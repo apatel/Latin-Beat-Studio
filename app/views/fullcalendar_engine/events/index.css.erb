@@ -1,0 +1,6 @@
+<% @color_hash.each do |key, value| %>
+  .fc-event-<%= key %> {
+    background-color: #<%= value %>;
+    border: 1px solid #<%= value %>;
+  }
+<% end %>

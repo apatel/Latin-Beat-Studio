@@ -1,0 +1,27 @@
+// confirm file called
+console.log("past_packages.js.erb file");
+
+$(".account-info").html("");
+
+var str = ""
+
+str = str + "<h3>Past Packages</h3>"
+str = str + "<p><%= escape_javascript link_to('Purchase Packages', passes_path(u: @user.id), class: 'btn btn-primary btn-lg') %> &nbsp;&nbsp;&nbsp; <%= escape_javascript link_to('View Current Packages', packages_accounts_path, remote: true, class: 'btn btn-outline-primary btn-md') %></p>"
+str = str + "<table class='table table-sm'><thead><tr><th>Purchase Date</th><th>Package</th><th>Classes Remaining</th><th>Expire Date</th><th>Paid?</th></tr></thead><tbody>"
+<% @past_purchases.each do |o| %>
+  str = str + "<tr><td><%= o.get_purchase_date %></td><td><%= o.pass.name %></td><td><%= o.quantity_available %></td>"
+  <% if o.get_expire_date.blank? %>
+    str = str + "<td>Not Set</td>"
+  <% else %>
+    str = str + "<td><%= o.get_expire_date %></td>"
+  <% end %>
+  <% if o.paid? %>
+    str = str + "<td>Yes</td>"
+  <% else %>
+    str = str + "<td>No</td>"
+  <% end %>
+  str = str + "</tr>"
+<% end %>
+str = str + "</tbody></table>"
+
+$(".account-info").html(str);

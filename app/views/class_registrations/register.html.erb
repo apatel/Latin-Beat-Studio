@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Register for <%= @event.title %></h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+  <% if user_signed_in? %>
+    <% if @user.nil? %>
+      oops... how did you get here?
+    <% else %>
+      <div class="row">
+        <div class="col-md-3">
+          <h3>Class Info</h3>
+          Date: <%= @date %><br />
+          Starting at: <%= @stime %><br />
+          Ending at: <%= @etime %>
+        </div>
+        <div class="col-md-6">
+          <h3>Select Package</h3>
+          <p>You have more than one package on your account that fits this class. Please choose which package you would like to use.</p>
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Package Name</th>
+                <th>Purchase Date</th>
+                <th>Expire Date</th>
+                <th>Classes Availble</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @current_packages.each do |cp| %>
+                <tr>
+                  <td><%= cp.pass.name %></td>
+                  <td><%= cp.created_at %></td>
+                  <td><%= cp.expire %></td>
+                  <td><%= cp.quantity_available_display %></td>
+                  <td><%= link_to('Select', register_class_registrations_path(event_id: @event.id, purchase_id: cp.id), class: "btn btn-primary btn-md") %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    oops... how did you get here?
+  <% end %>
+</div>

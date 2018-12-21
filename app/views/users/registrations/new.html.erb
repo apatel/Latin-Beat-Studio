@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Sign Up</h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+    <%= semantic_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= devise_error_messages! %>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.input :username, input_html: {autofocus: true} %>
+          <%= f.input :first_name %>
+          <%= f.input :last_name %>
+        </div>
+        <div class="col-md-6">
+          <%= f.input :email %>
+          <%= f.input :phone, label: "Mobile Phone" %>
+          <%= f.input :birthday, :as => :date_picker, :input_html => { :max => "2016-12-31", :min => "1920-01-01" } %>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-md-12">
+          <%= f.input :password, label: "Password" %>
+          <%= f.input :password_confirmation, label: "Confirm Password", required: true %>
+        </div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-md-12">
+          <h4>Studio Liability Release</h4>
+          <p>
+            Because physical exercise can be strenuous and subject to risk of serious injury, Latin Beat Fitness Studio urges you to obtain a physical examination from a doctor before using any exercise equipment or participating in any exercise activity. You agree that if you engage in any physical exercise or activity, or use any Studio amenity on the premises, you do so entirely at your own risk. You agree that you are voluntarily participating in these activities and use of these facilities and premises and assume all risks of injury, illness, damage or even death, or loss of by theft of any personal property. You expressly agree to release and discharge Latin Beat Fitness Studio, and all affiliates, employees, agents, representatives, successors, or assigns, from any and all claims or causes of action. This waiver and release of liability includes, without limitation, all injuries to you which may occur, regardless of negligence, as a result of (a) your use of any exercise equipment, products and Studio amenities, (b) the sudden and unforeseen malfunctioning of any equipment, (c) our instruction or supervision, and (d) your slipping and/or falling while in the Studio, or on the Studio premises, including adjacent sidewalks and parking areas.
+            <br /><br />
+            You acknowledge that you have carefully read this waiver and fully understand that it is a release of liability. You agree to voluntarily give up any right that you may otherwise have to bring a legal action against the Studio for negligence, or any other personal injury or property damage or loss action.
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <br />
+          <h5><%= f.input :waiver, :as => :boolean, label: "Agree" %></h5>
+          <%= f.input :waiver_date, :as => :hidden, :input_html => { :value => Date.today } %>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <%= f.actions do %>
+            <%= f.action :submit, :as => :button, label: "Sign Up", button_html: {class: "btn btn-primary", style: "padding: 15px 60px;"} %>
+          <% end %>
+        </div>
+        <div class="col-md-6">
+          <%= render "users/shared/links" %>
+        </div>
+      </div>
+    <% end %>
+
+</div>

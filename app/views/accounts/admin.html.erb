@@ -1,0 +1,90 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Member Account Administration</h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <p>
+        Start typing username, first name or last name to search.
+        <br /><br />
+      </p>
+    </div>
+    <div class="col-md-6">
+      <%= form_tag(member_accounts_path, method: "get", remote: true) do %>
+        <div class="row">
+          <div class="col-md-8">
+            <%= text_field_tag :query, params[:query], id: "search-input", class: 'form-control', placeholder: 'Start typing member name...' %>
+            <%= hidden_field_tag :query_id %>
+          </div>
+          <div class="col-md-2">
+            <%= submit_tag("Go", :class => "btn btn-primary btn-md") %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="choose-member"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Upcoming Birthdays</h2>
+    </div>
+  </div>
+  <br />
+  <div class="row">
+    <div class="col-md-6">
+      <div class="birthdays">
+        <h4>Today</h4>
+        <% unless @today.blank? %>
+          <% @today.each do |t| %>
+            <%= t.fullname %> - <%= t.birthday.to_datetime.strftime('%D') %><br />
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="birthdays">
+        <h4>This Month</h4>
+        <% unless @this_month.blank? %>
+          <% @this_month.each do |t| %>
+            <%= t.fullname %> - <%= t.birthday.to_datetime.strftime('%D') %><br />
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+var ready;
+ready = (function() {
+  $("#query_id").val('');
+  $('a[href="' + this.location.pathname + '"]').parent().addClass('active');
+  $("#search-input").autocomplete({
+    source: '/accounts/autocomplete.json',
+    select: function(event, ui) {
+      $("#search-input").val(ui.item.label)
+      $('#query_id').val(ui.item.value)
+			return false;
+		}
+  });
+});
+
+$("#search-input").blur(function() {
+  if (this.value == '') {
+    $("#query_id").val('');
+  }
+});
+
+$(document).ready(ready);
+$(document).on('page:load', ready);
+
+</script>

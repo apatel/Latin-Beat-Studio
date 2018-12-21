@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Roster for <%= @event.title %> <br /> <%= @date %></h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+  <% if user_signed_in? %>
+    <% if current_user.admin %>
+      <p class="roster">
+        <%= link_to "Submit Roster", submit_class_registrations_path(event_id: @event.id), remote: true, class: "btn btn-primary btn-lg" %>
+        <a href="<%= @mailto %>" class="btn btn-primary btn-lg">Email Registered Members</a>
+        <span class="total-reg">Total Registered: <%= @reg_count %></span>
+      </p>
+      <table class="table table-sm">
+        <thead>
+          <tr>
+            <th>Member</th>
+            <th>Curent Package</th>
+            <th>Classes Left</th>
+            <th>Expiration</th>
+            <th>Paid?</th>
+            <th>Attended?</th>
+            <th>No Show?</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody class="tbody">
+          <% @class_registrations.each do |r| %>
+            <tr>
+              <td>
+                <%= r.user.fullname %>
+              </td>
+              <td><%= r.purchase.pass.name %></td>
+              <td><%= r.purchase.quantity_available %></td>
+              <td><%= r.purchase.get_expire_date %></td>
+              <% if r.purchase.paid %>
+                <td><%= link_to "Yes", paid_class_registrations_path(reg: r), remote: true, class: "btn btn-sm btn-success" %></td>
+              <% else %>
+                <td><%= link_to "No", paid_class_registrations_path(reg: r), remote: true, class: "btn btn-sm btn-danger" %></td>
+              <% end %>
+              <% if r.attended %>
+                <td><%= link_to "Yes", attended_class_registrations_path(reg: r), remote: true, class: "btn btn-sm btn-success" %></td>
+              <% else %>
+                <td><%= link_to "No", attended_class_registrations_path(reg: r), remote: true, class: "btn btn-sm btn-danger" %></td>
+              <% end %>
+              <% if r.no_show %>
+                <td><%= link_to "Yes", no_show_class_registrations_path(reg: r), remote: true, class: "btn btn-sm btn-success" %></td>
+              <% else %>
+                <td><%= link_to "No", no_show_class_registrations_path(reg: r), remote: true, class: "btn btn-sm btn-danger" %></td>
+              <% end %>
+              <td><%= link_to "Cancel Reg", cancel_class_registrations_path(reg: r, roster: true), remote: true, class: "btn btn-sm btn-info" %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  <% else %>
+    Sorry, you're not supposed to be here.
+  <% end %>
+</div>

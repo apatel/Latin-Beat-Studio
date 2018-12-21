@@ -1,0 +1,2 @@
+class PassType < ApplicationRecord
+end

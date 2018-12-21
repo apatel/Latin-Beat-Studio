@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="page-header">
+    <h1><%= @pass.name %> Added</h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+  <div class="row pass">
+    <div class="col-md-4">
+      <h3>Package Added</h3>
+      <p><%= @pass.description %></p>
+      <p>Price: <%= number_to_currency(@pass.price) %></p>
+      <p>Includes <%= @pass.quantity_display %> classes</p>
+      <p>Expires within <%= @pass.expiration_days %> days.</p>
+      <br />
+      <% unless @purchase.blank? %>
+        <p><%= link_to('Remove This Package', remove_passes_path(p: @purchase.id), class: "btn btn-danger btn-lg") %></p>
+      <% end %>
+    </div>
+    <div class="col-md-4">
+      <h3>Pay Now</h3>
+      <p><%= link_to('Click here to purchase online.', @pass.embed_code, target: "_blank", class: "sq-embed-item") %></p>
+    </div>
+    <div class="col-md-3">
+      <h3>Pay at Studio</h3>
+      <p>Please pay for your purchase the next time you visit the studio.</p>
+      <br />
+      <p><%= link_to('Register for a Class', fullcalendar_path, class: "btn btn-primary btn-lg") %></p>
+    </div>
+  </div>
+</div>

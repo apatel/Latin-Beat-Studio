@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Class Offerings</h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+  <div class="row classes">
+    <% @classes.each do |ct| %>
+      <div class="col-md-offset-6 class-type">
+        <div class="card" style="width: 20rem;">
+          <% if ct.class_image.file? %>
+            <img class="card-img-top" src="<%= ct.class_image.url(:medium) %>" alt="Card image cap">
+          <% else %>
+            <%= image_tag("coming-soon.png", class: "card-img-top", size: "300x300", alt: "Coming Soon") %>
+          <% end %>
+          <div class="card-block">
+            <h4 class="card-title"><%= ct.name %></h4>
+            <p class="card-text"><%= !ct.description.nil? ? ct.description.html_safe : "" %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

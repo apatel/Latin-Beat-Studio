@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Forgot your password?</h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+  <div class="col-md-8">
+    <%= semantic_form_for(resource, as: resource_name, url: password_path(resource_name), html: {method: :post}) do |f| %>
+      <%= devise_error_messages! %>
+      <%= f.input :email, input_html: {autofocus: true} %>
+      <%= f.actions do %>
+        <%= f.action :submit, :as => :button, label: "Send me reset password instructions", button_html: {class: "btn btn-primary", style: "padding: 15px 60px;"} %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

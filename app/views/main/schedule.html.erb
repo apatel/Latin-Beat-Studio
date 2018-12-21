@@ -1,0 +1,14 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Schedule</h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+  <div class="col-md-7 studio-img">
+    <% if !@content.blank? && @content.content_image.file? %>
+      <center><img src="<%= @content.content_image.url %>" alt="Schedule"></center>
+    <% end %>
+  </div>
+</div>

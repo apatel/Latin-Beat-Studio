@@ -1,0 +1,16 @@
+// confirm file called
+console.log("qr_code.js.erb file");
+
+$(".account-info").html("");
+
+var str = ""
+str = str + "<h3>QR Code</h3>"
+
+str = str + "<div class='row'>"
+  str = str + "<div class='qr'>"
+    str = str + "<p>To save QR code, right click (or tap and hold on iPhone) and save image.</p>"
+    str = str + "<%= escape_javascript image_tag(@png) %>"
+  str = str + "</div>"
+str = str + "</div>"
+
+$(".account-info").html(str);

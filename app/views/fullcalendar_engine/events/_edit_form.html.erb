@@ -1,0 +1,67 @@
+<div class="container">
+  <%= form_for @event, :html => { :id => 'event_form' } do |f| %>
+  <div class="row">
+    <div class="col-md-6">
+      <p>
+        <%=f.label :class_type %>
+        <br/>
+        <%= f.select :class_type_id, options_for_select(ClassType.all.map{|s|[s.name, s.id]}, @event.class_type_id) %>
+      </p>
+    </div>
+    <div class="col-md-3">
+      <p>
+        <%=f.label :instructor %>
+        <br/>
+        <%= f.select :instructor_id, options_for_select(Instructor.all.map{|s|[s.name, s.id]}, @event.instructor_id) %>
+      </p>
+    </div>
+    <div class="col-md-3">
+      <p>
+        <%=f.label :location %>
+        <br/>
+        <%= f.select :location_id, options_for_select(Location.all.map{|s|[s.name, s.id]}, @event.location_id) %>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <p>
+        <%=f.label :starttime, 'Start Time' %>
+        <br/>
+        <%=f.datetime_select :starttime %>
+      </p>
+    </div>
+    <div class="col-md-4">
+      <p>
+        <%=f.label :endtime, 'End Time' %>
+        <br/>
+        <%=f.datetime_select :endtime %>
+      </p>
+    </div>
+    <div class="col-md-4">
+      <p>
+        <%=f.label :all_day %>
+        <%=f.check_box :all_day %>
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <%=f.hidden_field :commit_button, :value => ""%>
+      <p>
+        <%if @event.event_series -%>
+        Update: <br />
+        <%=f.submit 'Only This Occurrence', :onclick => "document.getElementById('event_commit_button').value = this.value"%>
+        <%=f.submit 'All Occurrences', :onclick => "document.getElementById('event_commit_button').value = this.value"%>
+        <%=f.submit 'All Following Occurrences', :onclick => "document.getElementById('event_commit_button').value = this.value"%>
+        <%else-%>
+        <%=f.submit 'Update', :onclick => "document.getElementById('event_commit_button').value = this.value"%>
+        <%end-%>
+
+        <span id = "updating_events" class="spinner" style = "display:none;">Updating, Please wait...</span>
+      </p>
+    </div>
+  </div>
+  <% end %>
+</div>

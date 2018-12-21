@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Latin Beat Fitness Schedule</title>
+  <%= csrf_meta_tags %>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= yield :stylesheet_includes %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag 'tether.min' %>
+
+</head>
+<body>
+  <nav class="navbar navbar-toggleable-md navbar-light fixed-top" style="background-color: #fff;">
+    <div class="container">
+      <%= link_to(image_tag("lb.png", size: "229x75", alt: "Latin Beat Fitness Studio"), main_app.root_path) %>
+      <div class="clearfix"></div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        MENU
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <%= link_to('Classes', main_app.class_types_path, class: "nav-link") %>
+          </li>
+          <li class="nav-item">
+            <%= link_to('Packages', main_app.passes_path, class: "nav-link") %>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Schedule</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown03">
+              <%= link_to('Schedule', main_app.schedule_path, class: "dropdown-item") %>
+              <%= link_to('Class Registration', main_app.fullcalendar_path, class: "dropdown-item") %>
+            </div>
+          </li>
+          <li class="nav-item">
+            <%= link_to('Events', main_app.studio_events_path, class: "nav-link") %>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Studio</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown02">
+              <%= link_to('The Studio', main_app.studio_path, class: "dropdown-item") %>
+              <%= link_to('Instructors', main_app.instructors_path, class: "dropdown-item") %>
+              <%= link_to('FAQ', main_app.faq_path, class: "dropdown-item") %>
+            </div>
+          </li>
+          <% if user_signed_in? %>
+            <% if current_user.admin %>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                  <%= link_to('Backend', main_app.rails_admin_path, class: "dropdown-item") %>
+                  <%= link_to('Manage Members', main_app.admin_accounts_path, class: "dropdown-item") %>
+                  <%= link_to('Logout', main_app.destroy_user_session_path, :method => :delete, class: "dropdown-item") %>
+                </div>
+              </li>
+            <% else %>
+              <%= link_to('Account', main_app.accounts_path, class: "nav-link") %>
+              <%= link_to('Logout', main_app.destroy_user_session_path, :method => :delete, class: "nav-link") %>
+            <% end %>
+          <% else %>
+            <%= link_to('Login', main_app.new_user_session_path, class: "nav-link")  %>
+            <%= link_to('Sign Up', main_app.new_user_registration_path, class: "nav-link") %>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="clearfix"></div>
+  <div class="container flash">
+    <% flash.each do |key, value| %>
+      <%= content_tag :div, class: "alert alert-#{key}" do %>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <%= value %>
+      <% end %>
+    <% end %>
+  </div><!-- /container -->
+
+  <div class="container member-selected">
+    <% if user_signed_in? %>
+      <% if current_user.admin && !session[:member_selected].blank? %>
+        <%= content_tag :div, class: "alert alert-danger" do %>
+          You are performing actions for <%= User.find(session[:member_selected]).username %>. <%= link_to('Go To Account', main_app.accounts_path) %> | <%= link_to('Clear Member Selected', main_app.clear_accounts_path) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div><!-- /container -->
+
+  <%= yield %>
+
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSfR05-GUxbSYPL_6eoLzLicmqYkzwge8gBnPhdjy0hXuic8WQ/viewform?hl=en_US&formkey=dG83TzBQREhtdTBVVS1oUV93ODB3NGc6MQ#gid=0" target="_blank">
+    <div class="suggestion-box">
+      <i class="fa fa-comments" aria-hidden="true"></i><br />
+      SUGGESTIONS
+    </div>
+  </a>
+
+  <div class="container">
+    <hr>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="instagram">
+          <h4><a href="https://www.instagram.com/lbfitness2017/" target="_blank">#LatinBeatLife</a></h4>
+          <!-- LightWidget WIDGET -->
+          <script src="//lightwidget.com/widgets/lightwidget.js"></script>
+          <iframe src="//lightwidget.com/widgets/854bf242fa1959c3854e4eeb9604157f.html" scrolling="no" allowtransparency="true" class="lightwidget-widget" style="width: 100%; border: 0; overflow: hidden;"></iframe>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="container facebook">
+          <p>
+            <a href="https://www.facebook.com/LBFitness2017/" target="_blank">
+              <h4>@LatinBeatStudio</h4>
+            </a>
+          </p>
+
+          <div class="fb-page"
+            data-href="https://www.facebook.com/LBFitness2017/"
+            data-width="380"
+            data-hide-cover="false"
+            data-show-facepile="false"
+            data-show-posts="false">
+            <blockquote cite="https://www.facebook.com/LBFitness2017/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/LBFitness2017/" target="_blank">Latin Beat Fitness Studio</a></blockquote>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container footer">
+    <hr>
+    <footer>
+      <p>LATIN BEAT FITNESS STUDIO  |  40 EASTERN AVE  |  MALDEN, MA 02148  |  &copy; 2018-19</p>
+      <p>Designed by: <a href="http://www.bokadesigns.com" target="_blank"><%= image_tag("designedby_logo.png", alt: "BOKA Designs Logo") %> BOKA Designs </a></p>
+      <p>
+        FOR MORE INFORMATION ABOUT ZUMBA FITNESS®, PLEASE VISIT: <a href="http://www.zumba.com">WWW.ZUMBA.COM</a>. ZUMBA® AND THE ZUMBA® FITNESS LOGOS ARE TRADEMARKS OF ZUMBA® FITNESS, LLC, USED UNDER LICENSE. WE ARE NOT EMPLOYEES OF ZUMBA® FITNESS, LLC, NOR ARE WE AFFILIATED WITH THE CORPORATION IN ANY OTHER WAY THAN BEING LICENSED INSTRUCTORS OF ZUMBA® FITNESS.
+      </p>
+      <span class="easter-egg"><a href="/assets/fenway.jpg" target="_blank"><i class="fa fa-tree" aria-hidden="true"></i></a></span>
+    </footer>
+  </div>
+
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=201077976669936";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+</body>
+</html>

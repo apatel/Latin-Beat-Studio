@@ -1,0 +1,51 @@
+// confirm file called
+console.log("profile.js.erb file");
+
+$(".account-info").html("");
+
+var str = ""
+str = str + "<div class='row'>"
+str = str + "<div class='col-md-3'><h3>Profile Info</h3></div>"
+<% unless current_user.admin? %>
+  str = str + "<div class='col-md-9'><%= escape_javascript link_to('Edit Profile', edit_user_registration_path, class: 'btn btn-primary btn-sm') %><br /><br /></div>"
+<% end %>
+str = str + "</div>"
+
+str = str + "<div class='container'>"
+  str = str + "<div class='row'>"
+    str = str + "<div class='col-md-6'>"
+      str = str + "Username: <%= @user.username %> <br />"
+      str = str + "Email: <%= @user.email %> <br />"
+      str = str + "Birthday: <%= @user.birthday %>"
+    str = str + "</div>"
+
+    str = str + "<div class='col-md-6'>"
+      str = str + "First Name: <%= @user.first_name %> <br />"
+      str = str + "Last Name: <%= @user.last_name %> <br />"
+      str = str + "Mobile Phone: <%= @user.phone %>"
+    str = str + "</div>"
+  str = str + "</div>"
+  str = str + "<hr />"
+  str = str + "<div class='row'>"
+    str = str + "<div class='col-md-6'>"
+      str = str + "Address: <%= @user.address1 %> <br />"
+      str = str + "Apt/Unit: <%= @user.address2 %>"
+    str = str + "</div>"
+    str = str + "<div class='col-md-6'>"
+      str = str + "City: <%= @user.city %> <br />"
+      str = str + "State: <%= @user.state %> <br />"
+      str = str + "Zip: <%= @user.zip %>"
+    str = str + "</div>"
+  str = str + "</div>"
+  str = str + "<hr />"
+  str = str + "<div class='row'>"
+    str = str + "<div class='col-md-6'>"
+      str = str + "Emergency Contact Name: <%= @user.emergency_contact_name %>"
+    str = str + "</div>"
+    str = str + "<div class='col-md-6'>"
+      str = str + "Emergency Contact Phone: <%= @user.emergency_contact_phone %>"
+    str = str + "</div>"
+  str = str + "</div>"
+str = str + "</div>"
+
+$(".account-info").html(str);

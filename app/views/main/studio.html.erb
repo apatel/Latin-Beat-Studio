@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="page-header">
+    <h1>The Studio</h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-7 studio-img">
+      <%= image_tag("#{@content.body}", alt: "Latin Beat Fitness Studio") %>
+    </div>
+    <div class="col-md-5">
+      <p class="studio-heading">Latin Beat is a family-owned fitness studio located in the greater Boston area.</p>
+      <br />
+      <p class="our-staff">Our Staff</p>
+      <% @instructors.each do |i| %>
+        <% unless i.user.blank? %>
+          <p><strong><%= i.user.fullname.blank? ? i.name : i.user.fullname %></strong>, <%= i.title %></p>
+        <% else %>
+          <% unless i.name.blank? %>
+           <p><strong><%= i.name %></strong>, <%= i.title %></p>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <hr class="my-4">
+  <div class="row">
+    <div class="col-md-7 google-map">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2945.1851444530657!2d-71.0686730835645!3d42.423793839065176!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e3716415f10b4b%3A0xd787765f7393558d!2s40+Eastern+Ave%2C+Malden%2C+MA+02148!5e0!3m2!1sen!2sus!4v1492897357754" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+    </div>
+    <div class="col-md-5 studio">
+      <p class="studio-heading">Info</p>
+      <br />
+      <p class="our-staff">Location</p>
+      <p>40 Eastern Ave Suite 102</p>
+      <p>Malden, MA 02148</p>
+      <br />
+      <p class="our-staff">Hours</p>
+      <p>Mon/Wed/Fri 5 pm-9:30 pm</p>
+      <p>Tues/Thu 11:30am - 1:30 pm, 5pm - 9:30 pm</p>
+      <p>Sat/Sun 7am - 11:30 am</p>
+      <br />
+      <p><a href="mailto:info@latinbeatstudio.com">info@latinbeatstudio.com</a></p>
+    </div>
+  </div>
+</div>

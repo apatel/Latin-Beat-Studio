@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="page-header">
+    <h1><%= @instructor.name %></h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+  <%= semantic_form_for(@instructor, html: {method: :put}) do |f| %>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-12">
+            <% if @instructor.instructor_image.file? %>
+              <%= image_tag(@instructor.instructor_image.url(:medium), class: "image") %>
+            <% else %>
+              <%= image_tag("coming-soon.png", class: "image", size: "350x350", alt: "Coming Soon") %>
+            <% end %>
+          </div>
+        </div>
+        <div class="row" style="padding-top: 10px;">
+          <div class="col-md-12">
+            <%= f.input :name %>
+            <br />
+            <%= f.input :fb_handle, label: "Facebook Title" %>
+            <%= f.input :fb_link, label: "Facebook Link" %>
+            <br />
+            <%= f.input :ig_handle, label: "Instagram Title" %>
+            <%= f.input :ig_link, label: "Instagram Link" %>
+          </div>
+        </div>
+        <div class="row" style="padding-top: 40px;">
+          <div class="col-md-12">
+            <%= f.input :playlist, hint: "spotify embed code" %>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-12">
+            <%= f.input :bio, as: :ckeditor, input_html: { :rows => 10, :cols => 80} %>
+          </div>
+        </div>
+        <div class="row" style="padding-top: 10px;">
+          <div class="col-md-12">
+            <h3><%= @instructor.name %>'s Upcoming Classes</h3>
+            <table class='table table-sm'>
+              <thead>
+                <tr>
+                  <th>Date - Time</th>
+                  <th>Class</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @classes.each do |c| %>
+                  <tr>
+                    <td><%= "#{c.starttime.to_datetime.strftime('%A %D')} - #{c.starttime.to_datetime.strftime('%I:%M %p')}" %></td>
+                    <td><%= ClassType.find(c.class_type_id).name %></td>
+                    <td class = "inst-link">
+                      <%= link_to('Register', register_class_registrations_path(event_id: c.id)) %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <br />
+        <%= f.action :submit, :as => :button, label: "Update Information", button_html: {class: "btn btn-primary btn-wide", style: "padding: 15px 60px;"} %>
+      </div>
+    </div>
+  <% end %>
+</div>

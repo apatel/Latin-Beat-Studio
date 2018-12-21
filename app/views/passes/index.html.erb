@@ -1,0 +1,47 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Studio Passes</h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container passes">
+  <div class="row classes">
+    <% @passes.each do |cat, passes| %>
+      <div class="col-md-12">
+        <h2><%= cat %></h2>
+        <hr />
+      </div>
+      <% passes.each do |pkg| %>
+        <div class="col-md-offset-6 class-type">
+          <div class="card" style="width: 20rem;">
+            <div class="card-block">
+              <h4 class="card-title pass-title"><%= pkg.name %></h4>
+              <% unless pkg.price.nil? %>
+                <p class="pass-price"><%= number_to_currency(pkg.price) %> | <%= pkg.quantity_text %></p>
+              <% end %>
+              <p class="card-text">
+                <%= pkg.description %>
+                <br /><br />
+                <%= !pkg.expiration_text.nil? ? pkg.expiration_text.html_safe : "" %>
+              </p>
+              <% if user_signed_in? %>
+                <% if current_user.admin %>
+                  <% if session[:member_selected].blank? %>
+                    <%= link_to('Select Member', admin_accounts_path, class: "btn btn-primary btn-md") %>
+                  <% else %>
+                    <%= link_to('Add to Member', buy_passes_path(pkg: pkg.id), class: "btn btn-primary btn-md") %>
+                  <% end %>
+                <% else %>
+                  <%= link_to('Purchase', buy_passes_path(pkg: pkg.id), class: "btn btn-primary btn-md") %>
+                <% end %>
+              <% else %>
+                <p><a class="btn btn-primary btn-md" href="/users/sign_in" role="button">Login to Purchase</a></p>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

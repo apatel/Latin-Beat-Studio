@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="page-header">
+    <h4><%= @message %></h4>
+  </div>
+</div> <!-- /container -->
+<hr>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <%= @event.title %><br />
+      <%= @event.starttime.to_datetime.strftime('%A %D - %I:%M %p') %><br />
+      <% unless @pur.blank? %>
+        Package:<%= @pur.pass.name %>, <%= @pur.quantity_available %> classes left.<br />
+        Expires: <%= @pur.get_expire_date %><br />
+        Paid? <%= @pur.paid %><br />
+      <% end %>
+      <% unless @current_packages.blank? %>
+        <% @current_packages.each do |pur| %>
+          <hr>
+          Package:<%= pur.pass.name %>, <%= pur.quantity_available %> classes left.<br />
+          Expires: <%= pur.get_expire_date %><br />
+          Paid? <%= pur.paid %><br />
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

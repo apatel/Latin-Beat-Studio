@@ -1,0 +1,22 @@
+// confirm file called
+console.log("classes.js.erb file");
+
+$(".account-info").html("");
+
+var str = ""
+
+str = str + "<h3>Upcoming Registered Classes</h3>"
+str = str + "<p><%= escape_javascript link_to('Register for a Class', fullcalendar_path, class: 'btn btn-primary btn-lg') %> &nbsp;&nbsp;&nbsp; <%= escape_javascript link_to('View Past Classes', past_classes_accounts_path, remote: true, class: 'btn btn-outline-primary btn-md') %></p>"
+str = str + "<table class='table table-sm'><thead><tr><th>Date - Time</th><th>Class</th><th>Instructor</th><th></th></tr></thead><tbody>"
+    <% @class_registrations.each do |r| %>
+      str = str + "<tr><td><%= r.get_class_date_time %></td><td><%= r.get_class_type %></td><td><%= r.get_instructor %></td><td>"
+        <% if r.can_cancel? %>
+          str = str + "<%= escape_javascript link_to 'Cancel', cancel_class_registrations_path(reg: r) %>"
+        <% else %>
+          str = str + "Please call the studio to cancel."
+        <% end %>
+        str = str + "</td></tr>"
+    <% end %>
+  str = str + "</tbody></table>"
+
+$(".account-info").html(str);

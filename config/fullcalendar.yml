@@ -1,0 +1,8 @@
+mount_path: "/fullcalendar"
+layout: 'custom'
+height: 1000
+defaultView: 'agendaWeek'
+timeFormat:  "h:mm tt{ - h:mm tt}"
+timezone: 'local'
+allDayDefault: false
+events: "/fullcalendar/events/get_events"

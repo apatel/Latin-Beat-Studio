@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="page-header">
+    <h1>Log In</h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+  <div class="col-md-8">
+    <%= semantic_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <%= f.input :login, input_html: {autofocus: true} %>
+      <%= f.input :password %>
+
+      <% if devise_mapping.rememberable? -%>
+        <%= f.input :remember_me, as: :boolean, label: false %>
+      <% end -%>
+
+      <%= f.actions do %>
+        <%= f.action :submit, label: "Login", button_html: {class: "btn btn-primary", style: "padding: 15px 60px;"} %>
+      <% end %>
+    <% end %>
+
+    <%= render "users/shared/links" %>
+  </div>
+</div>

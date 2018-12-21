@@ -1,0 +1,100 @@
+<div class="container">
+  <div class="page-header">
+    <h1><%= @instructor.name %></h1>
+  </div>
+  <hr>
+</div> <!-- /container -->
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12 inst-image">
+          <% if @instructor.instructor_image.file? %>
+            <%= image_tag(@instructor.instructor_image.url(:medium), class: "image") %>
+          <% else %>
+            <%= image_tag("coming-soon.png", class: "image", size: "350x350", alt: "Coming Soon") %>
+          <% end %>
+          <div class="middle">
+            <div class="text"><%= link_to(@instructor.name, instructor_path(@instructor)) %></div>
+            <% if user_signed_in? %>
+              <% if current_user.instructors.include?(@instructor) || current_user.admin? %>
+                <div class="text-edit"><%= link_to('Edit', edit_instructor_path(@instructor)) %></div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="padding-top: 10px;">
+        <div class="col-md-12">
+          <center><strong>BE MY FRIEND!</strong></center>
+          <br />
+          <center>
+          <% unless @instructor.fb_handle.blank? %>
+            <% unless @instructor.fb_link.blank? %>
+              <i class="fa fa-facebook" aria-hidden="true"></i>&nbsp;&nbsp;<%= link_to(@instructor.fb_handle, @instructor.fb_link, target: "_blank") %>
+            <% end %>
+          <% end %>
+          <br />
+          <% unless @instructor.ig_handle.blank? %>
+            <% unless @instructor.ig_link.blank? %>
+              <i class="fa fa-instagram" aria-hidden="true"></i>&nbsp;<%= link_to(@instructor.ig_handle, @instructor.ig_link, target: "_blank") %>
+            <% end %>
+          <% end %>
+          </center>
+        </div>
+      </div>
+      <div class="row" style="padding-top: 40px;">
+        <div class="col-md-12">
+          <center>
+            <% unless @instructor.playlist.blank? %>
+              <%= raw @instructor.playlist %>
+            <% end %>
+          </center>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12">
+          <% unless @instructor.bio.blank? %>
+            <%= raw @instructor.bio %>
+          <% else %>
+            Bio Coming Soon
+          <% end %>
+        </div>
+      </div>
+      <% unless @classes.blank? %>
+        <div class="row" style="padding-top: 10px;">
+          <div class="col-md-12">
+            <h3><%= @instructor.name %>'s Upcoming Classes</h3>
+            <table class='table table-sm'>
+              <thead>
+                <tr>
+                  <th>Date - Time</th>
+                  <th>Class</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <% @classes.each do |c| %>
+                  <tr>
+                    <td><%= "#{c.starttime.to_datetime.strftime('%A %D')} - #{c.starttime.to_datetime.strftime('%I:%M %p')}" %></td>
+                    <td><%= ClassType.find(c.class_type_id).name %></td>
+                    <td class = "inst-link">
+                      <% if current_user.nil? %>
+                        <%= link_to('Login to Register', new_user_session_path) %>
+                      <% else %>
+                        <%= link_to('Register', register_class_registrations_path(event_id: c.id)) %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
